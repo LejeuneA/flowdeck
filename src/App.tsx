@@ -1,4 +1,4 @@
-import ProjectCard from "./components/ProjectCard";
+import ProjectList from "./components/ProjectList";
 import type { Project } from "./types/Project";
 
 function App() {
@@ -27,28 +27,6 @@ function App() {
         },
         {
             id: 3,
-            title: "Website Redesign",
-            client: "Northstar Studio",
-            status: "In Progress",
-            priority: "Low",
-            deadline: "30 June 2026",
-            category: "Web design",
-            progress: 90,
-            completed: false,
-        },
-        {
-            id: 4,
-            title: "Mobile App Design",
-            client: "Greenbox",
-            status: "To Do",
-            priority: "Medium",
-            deadline: "15 July 2026",
-            category: "App design",
-            progress: 50,
-            completed: false,
-        },
-        {
-            id: 5,
             title: "Brand Identity",
             client: "Luma Studio",
             status: "Completed",
@@ -59,7 +37,7 @@ function App() {
             completed: true,
         },
         {
-            id: 6,
+            id: 4,
             title: "Social Media Campaign",
             client: "Brightside Agency",
             status: "To Do",
@@ -68,9 +46,23 @@ function App() {
             category: "Campaign",
             progress: 0,
             completed: false,
-        }
-
+        },
     ];
+
+    const totalProjects = projects.length;
+
+    const inProgressProjects = projects.filter(
+        (project) => project.status === "In Progress"
+    ).length;
+
+    const completedProjects = projects.filter(
+        (project) => project.status === "Completed"
+    ).length;
+
+    const highPriorityProjects = projects.filter(
+        (project) => project.priority === "High"
+    ).length;
+
     return (
         <div className="flowdeck">
             <aside className="flowdeck__sidebar">
@@ -92,7 +84,9 @@ function App() {
 
                 <div className="flowdeck__profile">
                     <p className="flowdeck__profile-name">Açelya Lejeune</p>
-                    <p className="flowdeck__profile-role">UX/UI · Frontend · AI Apps</p>
+                    <p className="flowdeck__profile-role">
+                        UX/UI · Frontend · AI Apps
+                    </p>
                 </div>
             </aside>
 
@@ -112,22 +106,22 @@ function App() {
                 <section className="flowdeck__stats">
                     <article className="stat-card">
                         <p className="stat-card__label">Total Projects</p>
-                        <p className="stat-card__value">6</p>
+                        <p className="stat-card__value">{totalProjects}</p>
                     </article>
 
                     <article className="stat-card">
                         <p className="stat-card__label">In Progress</p>
-                        <p className="stat-card__value">2</p>
+                        <p className="stat-card__value">{inProgressProjects}</p>
                     </article>
 
                     <article className="stat-card">
                         <p className="stat-card__label">Completed</p>
-                        <p className="stat-card__value">1</p>
+                        <p className="stat-card__value">{completedProjects}</p>
                     </article>
 
                     <article className="stat-card">
                         <p className="stat-card__label">High Priority</p>
-                        <p className="stat-card__value">1</p>
+                        <p className="stat-card__value">{highPriorityProjects}</p>
                     </article>
                 </section>
 
@@ -136,28 +130,16 @@ function App() {
                         <h3 className="flowdeck__section-title">Projects</h3>
 
                         <div className="flowdeck__filters">
-                            <button className="filter-button filter-button--active">All</button>
+                            <button className="filter-button filter-button--active">
+                                All
+                            </button>
                             <button className="filter-button">To Do</button>
                             <button className="filter-button">In Progress</button>
                             <button className="filter-button">Completed</button>
                         </div>
                     </div>
 
-                    <div className="project-grid">
-                        {projects.map((project) => (
-                            <ProjectCard
-                                key={project.id}
-                                title={project.title}
-                                client={project.client}
-                                status={project.status}
-                                priority={project.priority}
-                                deadline={project.deadline}
-                                category={project.category}
-                                progress={project.progress}
-                                completed={project.completed}
-                            />
-                        ))}
-                    </div>
+                    <ProjectList projects={projects} />
                 </section>
             </main>
 
@@ -165,8 +147,8 @@ function App() {
                 <div className="assistant-panel__header">
                     <h2 className="assistant-panel__title">Flowdeck Assistant</h2>
                     <p className="assistant-panel__subtitle">
-                        Your future AI project assistant will help summarize projects, detect
-                        risks, and suggest next steps.
+                        Your future AI project assistant will help summarize projects,
+                        detect risks, and suggest next steps.
                     </p>
                 </div>
 
