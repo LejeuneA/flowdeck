@@ -1,3 +1,4 @@
+import { useState } from "react";
 import ProjectList from "./components/ProjectList";
 import type { Project } from "./types/Project";
 
@@ -51,6 +52,10 @@ function App() {
 
     const totalProjects = projects.length;
 
+    const [selectedStatus, setSelectedStatus] = useState<
+        "All" | "To Do" | "In Progress" | "Completed"
+    >("All");
+
     const inProgressProjects = projects.filter(
         (project) => project.status === "In Progress"
     ).length;
@@ -62,6 +67,11 @@ function App() {
     const highPriorityProjects = projects.filter(
         (project) => project.priority === "High"
     ).length;
+
+    const filteredProjects =
+        selectedStatus === "All"
+            ? projects
+            : projects.filter((project) => project.status === selectedStatus);
 
     return (
         <div className="flowdeck">
@@ -130,16 +140,41 @@ function App() {
                         <h3 className="flowdeck__section-title">Projects</h3>
 
                         <div className="flowdeck__filters">
-                            <button className="filter-button filter-button--active">
+                            <button
+                                className={`filter-button ${selectedStatus === "All" ? "filter-button--active" : ""
+                                    }`}
+                                onClick={() => setSelectedStatus("All")}
+                            >
                                 All
                             </button>
-                            <button className="filter-button">To Do</button>
-                            <button className="filter-button">In Progress</button>
-                            <button className="filter-button">Completed</button>
+
+                            <button
+                                className={`filter-button ${selectedStatus === "To Do" ? "filter-button--active" : ""
+                                    }`}
+                                onClick={() => setSelectedStatus("To Do")}
+                            >
+                                To Do
+                            </button>
+
+                            <button
+                                className={`filter-button ${selectedStatus === "In Progress" ? "filter-button--active" : ""
+                                    }`}
+                                onClick={() => setSelectedStatus("In Progress")}
+                            >
+                                In Progress
+                            </button>
+
+                            <button
+                                className={`filter-button ${selectedStatus === "Completed" ? "filter-button--active" : ""
+                                    }`}
+                                onClick={() => setSelectedStatus("Completed")}
+                            >
+                                Completed
+                            </button>
                         </div>
                     </div>
 
-                    <ProjectList projects={projects} />
+                    <ProjectList projects={filteredProjects} />
                 </section>
             </main>
 
