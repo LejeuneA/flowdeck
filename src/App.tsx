@@ -137,7 +137,9 @@ function App() {
 
                 <section>
                     <div className="flowdeck__toolbar">
-                        <h3 className="flowdeck__section-title">Projects</h3>
+                        <h3 className="flowdeck__section-title">
+                            Projects <span className="flowdeck__section-count">{filteredProjects.length}</span>
+                        </h3>
 
                         <div className="flowdeck__filters">
                             <button
