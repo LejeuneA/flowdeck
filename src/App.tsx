@@ -2,6 +2,7 @@ import { useState } from "react";
 import ProjectList from "./components/ProjectList";
 import { projects } from "./data/projects";
 import ProjectFilters from "./components/ProjectFilters";
+import DashboardStats from "./components/DashboardStats";
 
 function App() {
     const [selectedStatus, setSelectedStatus] = useState<
@@ -67,27 +68,12 @@ function App() {
                     <button className="flowdeck__primary-button">Add project</button>
                 </header>
 
-                <section className="flowdeck__stats">
-                    <article className="stat-card">
-                        <p className="stat-card__label">Total Projects</p>
-                        <p className="stat-card__value">{totalProjects}</p>
-                    </article>
-
-                    <article className="stat-card">
-                        <p className="stat-card__label">In Progress</p>
-                        <p className="stat-card__value">{inProgressProjects}</p>
-                    </article>
-
-                    <article className="stat-card">
-                        <p className="stat-card__label">Completed</p>
-                        <p className="stat-card__value">{completedProjects}</p>
-                    </article>
-
-                    <article className="stat-card">
-                        <p className="stat-card__label">High Priority</p>
-                        <p className="stat-card__value">{highPriorityProjects}</p>
-                    </article>
-                </section>
+                <DashboardStats
+                    totalProjects={totalProjects}
+                    inProgressProjects={inProgressProjects}
+                    completedProjects={completedProjects}
+                    highPriorityProjects={highPriorityProjects}
+                />
 
                 <section>
                     <div className="flowdeck__toolbar">
