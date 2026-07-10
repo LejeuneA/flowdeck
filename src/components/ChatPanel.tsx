@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { sendChatMessage } from "../api/chatApi";
 
 type ChatMessage = {
     id: number;
@@ -10,30 +11,26 @@ const initialMessages: ChatMessage[] = [
     {
         id: 1,
         sender: "bot",
-        text: "Hi Açelya. I can help you understand your project status.",
+        text: "Hi Açelya. I am connected to your Flowdeck assistant backend.",
     },
     {
         id: 2,
-        sender: "user",
-        text: "Which projects need attention?",
-    },
-    {
-        id: 3,
         sender: "bot",
-        text: "Social Media Campaign has 0% progress and may need a next action.",
+        text: "Ask me about projects, priorities, deadlines, status, or summaries.",
     },
 ];
 
 function ChatPanel() {
     const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
     const [messageText, setMessageText] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         const trimmedMessage = messageText.trim();
 
-        if (!trimmedMessage) {
+        if (!trimmedMessage || isLoading) {
             return;
         }
 
@@ -43,19 +40,31 @@ function ChatPanel() {
             text: trimmedMessage,
         };
 
-        const botMessage: ChatMessage = {
-            id: Date.now() + 1,
-            sender: "bot",
-            text: "I am not connected to the backend yet, but soon I will analyze your Flowdeck projects.",
-        };
-
-        setMessages((currentMessages) => [
-            ...currentMessages,
-            userMessage,
-            botMessage,
-        ]);
-
+        setMessages((currentMessages) => [...currentMessages, userMessage]);
         setMessageText("");
+        setIsLoading(true);
+
+        try {
+            const botReply = await sendChatMessage(trimmedMessage);
+
+            const botMessage: ChatMessage = {
+                id: Date.now() + 1,
+                sender: "bot",
+                text: botReply,
+            };
+
+            setMessages((currentMessages) => [...currentMessages, botMessage]);
+        } catch {
+            const errorMessage: ChatMessage = {
+                id: Date.now() + 1,
+                sender: "bot",
+                text: "I could not reach the Flowdeck backend. Please make sure the Flask API is running.",
+            };
+
+            setMessages((currentMessages) => [...currentMessages, errorMessage]);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -63,8 +72,7 @@ function ChatPanel() {
             <div className="assistant-panel__header">
                 <h2 className="assistant-panel__title">Flowdeck Assistant</h2>
                 <p className="assistant-panel__subtitle">
-                    Your future AI project assistant will help summarize projects, detect
-                    risks, and suggest next steps.
+                    Connected to the Flowdeck AI Chatbot Core backend.
                 </p>
             </div>
 
@@ -77,6 +85,10 @@ function ChatPanel() {
                         {message.text}
                     </div>
                 ))}
+
+                {isLoading && (
+                    <div className="chat-message chat-message--bot">Thinking...</div>
+                )}
             </div>
 
             <form className="assistant-panel__form" onSubmit={handleSubmit}>
@@ -88,8 +100,12 @@ function ChatPanel() {
                     onChange={(event) => setMessageText(event.target.value)}
                 />
 
-                <button className="assistant-panel__send" type="submit">
-                    Send
+                <button
+                    className="assistant-panel__send"
+                    type="submit"
+                    disabled={isLoading}
+                >
+                    {isLoading ? "..." : "Send"}
                 </button>
             </form>
         </aside>
