@@ -29,7 +29,6 @@ export async function sendChatMessage(message: string): Promise<string> {
     }
 
     const data: ChatApiResponse = await response.json();
-    console.log("Flowdeck backend response:", data);
 
     const botReply =
         data.response ||
