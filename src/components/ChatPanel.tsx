@@ -94,10 +94,17 @@ function ChatPanel() {
         sendMessageToBackend(messageText);
     }
 
+    function handleClearChat() {
+        setMessages(initialMessages);
+        setBackendChatHistory([]);
+        setMessageText("");
+    }
+
     return (
         <aside className="flowdeck__assistant">
             <div className="assistant-panel__header">
                 <h2 className="assistant-panel__title">Flowdeck Assistant</h2>
+
                 <p className="assistant-panel__subtitle">
                     Connected to the Flowdeck AI Chatbot Core backend.
                 </p>
@@ -115,6 +122,15 @@ function ChatPanel() {
                         </button>
                     ))}
                 </div>
+
+                <button
+                    className="assistant-panel__clear"
+                    type="button"
+                    disabled={isLoading}
+                    onClick={handleClearChat}
+                >
+                    Clear chat
+                </button>
             </div>
 
             <div className="assistant-panel__messages">
