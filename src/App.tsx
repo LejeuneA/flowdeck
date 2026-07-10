@@ -6,24 +6,18 @@ import ProjectsSection from "./components/ProjectsSection";
 import Sidebar from "./components/Sidebar";
 import { projects } from "./data/projects";
 import type { ProjectStatusFilter } from "./types/Project";
+import { getProjectStats } from "./utils/projectStats";
 
 function App() {
     const [selectedStatus, setSelectedStatus] =
         useState<ProjectStatusFilter>("All");
 
-    const totalProjects = projects.length;
-
-    const inProgressProjects = projects.filter(
-        (project) => project.status === "In Progress"
-    ).length;
-
-    const completedProjects = projects.filter(
-        (project) => project.status === "Completed"
-    ).length;
-
-    const highPriorityProjects = projects.filter(
-        (project) => project.priority === "High"
-    ).length;
+    const {
+        totalProjects,
+        inProgressProjects,
+        completedProjects,
+        highPriorityProjects,
+    } = getProjectStats(projects);
 
     const filteredProjects =
         selectedStatus === "All"
