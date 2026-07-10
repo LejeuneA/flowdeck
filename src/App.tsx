@@ -1,10 +1,11 @@
 import { useState } from "react";
-import ProjectList from "./components/ProjectList";
-import { projects } from "./data/projects";
-import ProjectFilters from "./components/ProjectFilters";
-import DashboardStats from "./components/DashboardStats";
 import ChatPanel from "./components/ChatPanel";
+import DashboardHeader from "./components/DashboardHeader";
+import DashboardStats from "./components/DashboardStats";
+import ProjectFilters from "./components/ProjectFilters";
+import ProjectList from "./components/ProjectList";
 import Sidebar from "./components/Sidebar";
+import { projects } from "./data/projects";
 
 function App() {
     const [selectedStatus, setSelectedStatus] = useState<
@@ -35,17 +36,7 @@ function App() {
             <Sidebar />
 
             <main className="flowdeck__main">
-                <header className="flowdeck__header">
-                    <div>
-                        <p className="flowdeck__eyebrow">Project Dashboard</p>
-                        <h2 className="flowdeck__title">Flowdeck</h2>
-                        <p className="flowdeck__description">
-                            Creative project management, without the chaos.
-                        </p>
-                    </div>
-
-                    <button className="flowdeck__primary-button">Add project</button>
-                </header>
+                <DashboardHeader />
 
                 <DashboardStats
                     totalProjects={totalProjects}
