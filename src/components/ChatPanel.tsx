@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     sendChatMessage,
     type BackendChatEntry,
@@ -30,6 +30,12 @@ function ChatPanel() {
     >([]);
     const [messageText, setMessageText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages, isLoading]);
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -99,6 +105,8 @@ function ChatPanel() {
                 {isLoading && (
                     <div className="chat-message chat-message--bot">Thinking...</div>
                 )}
+
+                <div ref={messagesEndRef} />
             </div>
 
             <form className="assistant-panel__form" onSubmit={handleSubmit}>
