@@ -1,60 +1,13 @@
 import { useState } from "react";
 import ProjectList from "./components/ProjectList";
-import type { Project } from "./types/Project";
+import { projects } from "./data/projects";
 
 function App() {
-    const projects: Project[] = [
-        {
-            id: 1,
-            title: "Website Redesign",
-            client: "Northstar Studio",
-            status: "In Progress",
-            priority: "Low",
-            deadline: "30 June 2026",
-            category: "Web design",
-            progress: 90,
-            completed: false,
-        },
-        {
-            id: 2,
-            title: "Mobile App Design",
-            client: "Greenbox",
-            status: "To Do",
-            priority: "Medium",
-            deadline: "15 July 2026",
-            category: "App design",
-            progress: 50,
-            completed: false,
-        },
-        {
-            id: 3,
-            title: "Brand Identity",
-            client: "Luma Studio",
-            status: "Completed",
-            priority: "High",
-            deadline: "20 July 2026",
-            category: "Brand design",
-            progress: 100,
-            completed: true,
-        },
-        {
-            id: 4,
-            title: "Social Media Campaign",
-            client: "Brightside Agency",
-            status: "To Do",
-            priority: "Medium",
-            deadline: "18 August 2026",
-            category: "Campaign",
-            progress: 0,
-            completed: false,
-        },
-    ];
-
-    const totalProjects = projects.length;
-
     const [selectedStatus, setSelectedStatus] = useState<
         "All" | "To Do" | "In Progress" | "Completed"
     >("All");
+
+    const totalProjects = projects.length;
 
     const inProgressProjects = projects.filter(
         (project) => project.status === "In Progress"
@@ -138,7 +91,10 @@ function App() {
                 <section>
                     <div className="flowdeck__toolbar">
                         <h3 className="flowdeck__section-title">
-                            Projects <span className="flowdeck__section-count">{filteredProjects.length}</span>
+                            Projects{" "}
+                            <span className="flowdeck__section-count">
+                                {filteredProjects.length}
+                            </span>
                         </h3>
 
                         <div className="flowdeck__filters">
@@ -159,7 +115,9 @@ function App() {
                             </button>
 
                             <button
-                                className={`filter-button ${selectedStatus === "In Progress" ? "filter-button--active" : ""
+                                className={`filter-button ${selectedStatus === "In Progress"
+                                    ? "filter-button--active"
+                                    : ""
                                     }`}
                                 onClick={() => setSelectedStatus("In Progress")}
                             >
@@ -167,7 +125,9 @@ function App() {
                             </button>
 
                             <button
-                                className={`filter-button ${selectedStatus === "Completed" ? "filter-button--active" : ""
+                                className={`filter-button ${selectedStatus === "Completed"
+                                    ? "filter-button--active"
+                                    : ""
                                     }`}
                                 onClick={() => setSelectedStatus("Completed")}
                             >
