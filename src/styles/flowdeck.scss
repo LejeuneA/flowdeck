@@ -414,22 +414,25 @@ button {
 
 .assistant-panel__clear {
     width: fit-content;
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    border-radius: 999px;
-    margin-top: 0.75rem;
-    padding: 0.45rem 0.7rem;
-    color: #94a3b8;
-    background: rgba(15, 23, 42, 0.7);
+    border: 0;
+    margin-top: 0.85rem;
+    padding: 0.15rem 0;
+    color: #64748b;
+    background: transparent;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgba(100, 116, 139, 0.35);
+    text-underline-offset: 0.25rem;
 
     &:hover {
-        color: #ffffff;
-        border-color: rgba(248, 113, 113, 0.55);
-        background: rgba(248, 113, 113, 0.12);
+        color: #cbd5e1;
+        text-decoration-color: rgba(203, 213, 225, 0.65);
     }
 
     &:disabled {
         cursor: not-allowed;
-        opacity: 0.65;
+        opacity: 0.55;
     }
 }
 
@@ -501,6 +504,50 @@ button {
     &:disabled {
         cursor: not-allowed;
         opacity: 0.65;
+    }
+}
+
+.assistant-panel__hint {
+    border: 1px solid rgba(99, 102, 241, 0.16);
+    border-radius: 1rem;
+    margin-top: 0.85rem;
+    padding: 0.75rem 0.85rem;
+    color: #cbd5e1;
+    background: rgba(99, 102, 241, 0.08);
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.assistant-panel__quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 1rem;
+}
+
+.assistant-panel__quick-action {
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 999px;
+    padding: 0.35rem 0.6rem;
+    color: #cbd5e1;
+    background: rgba(15, 23, 42, 0.72);
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease,
+        transform 0.2s ease;
+
+    &:hover {
+        border-color: rgba(99, 102, 241, 0.7);
+        color: #ffffff;
+        background: rgba(99, 102, 241, 0.16);
+        transform: translateY(-1px);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+        transform: none;
     }
 }
 

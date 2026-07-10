@@ -109,11 +109,15 @@ function ChatPanel() {
                     Connected to the Flowdeck AI Chatbot Core backend.
                 </p>
 
-                <div className="flowdeck__filters">
+                <div className="assistant-panel__hint">
+                    Ask about projects, deadlines, priorities, status, summaries, or what to focus on first.
+                </div>
+
+                <div className="assistant-panel__quick-actions">
                     {quickCommands.map((command) => (
                         <button
                             key={command.command}
-                            className="filter-button"
+                            className="assistant-panel__quick-action"
                             type="button"
                             disabled={isLoading}
                             onClick={() => sendMessageToBackend(command.command)}
