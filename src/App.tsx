@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProjectList from "./components/ProjectList";
 import { projects } from "./data/projects";
+import ProjectFilters from "./components/ProjectFilters";
 
 function App() {
     const [selectedStatus, setSelectedStatus] = useState<
@@ -97,43 +98,10 @@ function App() {
                             </span>
                         </h3>
 
-                        <div className="flowdeck__filters">
-                            <button
-                                className={`filter-button ${selectedStatus === "All" ? "filter-button--active" : ""
-                                    }`}
-                                onClick={() => setSelectedStatus("All")}
-                            >
-                                All
-                            </button>
-
-                            <button
-                                className={`filter-button ${selectedStatus === "To Do" ? "filter-button--active" : ""
-                                    }`}
-                                onClick={() => setSelectedStatus("To Do")}
-                            >
-                                To Do
-                            </button>
-
-                            <button
-                                className={`filter-button ${selectedStatus === "In Progress"
-                                    ? "filter-button--active"
-                                    : ""
-                                    }`}
-                                onClick={() => setSelectedStatus("In Progress")}
-                            >
-                                In Progress
-                            </button>
-
-                            <button
-                                className={`filter-button ${selectedStatus === "Completed"
-                                    ? "filter-button--active"
-                                    : ""
-                                    }`}
-                                onClick={() => setSelectedStatus("Completed")}
-                            >
-                                Completed
-                            </button>
-                        </div>
+                        <ProjectFilters
+                            selectedStatus={selectedStatus}
+                            onStatusChange={setSelectedStatus}
+                        />
                     </div>
 
                     <ProjectList projects={filteredProjects} />
