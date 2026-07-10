@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import {
-    sendChatMessage,
-    type BackendChatEntry,
-} from "../api/chatApi";
+import { sendChatMessage, type BackendChatEntry } from "../api/chatApi";
 
 type ChatMessage = {
     id: number;
     sender: "bot" | "user";
     text: string;
+};
+
+type QuickCommand = {
+    label: string;
+    command: string;
 };
 
 const initialMessages: ChatMessage[] = [
@@ -21,6 +23,15 @@ const initialMessages: ChatMessage[] = [
         sender: "bot",
         text: "Ask me about projects, priorities, deadlines, status, or summaries.",
     },
+];
+
+const quickCommands: QuickCommand[] = [
+    { label: "Projects", command: "p" },
+    { label: "Tasks", command: "t" },
+    { label: "Urgent", command: "u" },
+    { label: "Deadlines", command: "d" },
+    { label: "Status", command: "s" },
+    { label: "Summary", command: "sm" },
 ];
 
 function ChatPanel() {
@@ -37,10 +48,8 @@ function ChatPanel() {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages, isLoading]);
 
-    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        const trimmedMessage = messageText.trim();
+    async function sendMessageToBackend(message: string) {
+        const trimmedMessage = message.trim();
 
         if (!trimmedMessage || isLoading) {
             return;
@@ -57,10 +66,7 @@ function ChatPanel() {
         setIsLoading(true);
 
         try {
-            const result = await sendChatMessage(
-                trimmedMessage,
-                backendChatHistory
-            );
+            const result = await sendChatMessage(trimmedMessage, backendChatHistory);
 
             const botMessage: ChatMessage = {
                 id: Date.now() + 1,
@@ -83,6 +89,11 @@ function ChatPanel() {
         }
     }
 
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        sendMessageToBackend(messageText);
+    }
+
     return (
         <aside className="flowdeck__assistant">
             <div className="assistant-panel__header">
@@ -90,6 +101,20 @@ function ChatPanel() {
                 <p className="assistant-panel__subtitle">
                     Connected to the Flowdeck AI Chatbot Core backend.
                 </p>
+
+                <div className="flowdeck__filters">
+                    {quickCommands.map((command) => (
+                        <button
+                            key={command.command}
+                            className="filter-button"
+                            type="button"
+                            disabled={isLoading}
+                            onClick={() => sendMessageToBackend(command.command)}
+                        >
+                            {command.label}
+                        </button>
+                    ))}
+                </div>
             </div>
 
             <div className="assistant-panel__messages">
