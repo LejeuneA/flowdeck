@@ -1,27 +1,40 @@
+export type BackendChatEntry = {
+    user_message: string;
+    intent: string;
+    bot_response: string;
+    timestamp?: string;
+};
+
 type ChatApiResponse = {
-    success?: boolean;
-    response?: string;
-    reply?: string;
-    answer?: string;
-    message?: string;
+    success: boolean;
     data?: {
-        response?: string;
-        reply?: string;
-        answer?: string;
+        chat_entry?: BackendChatEntry;
+        chat_history?: BackendChatEntry[];
+    };
+    error?: {
         message?: string;
-        chat_entry?: {
-            bot_response?: string;
-        };
     };
 };
 
-export async function sendChatMessage(message: string): Promise<string> {
+export type SendChatMessageResult = {
+    botReply: string;
+    chatEntry: BackendChatEntry;
+    chatHistory: BackendChatEntry[];
+};
+
+export async function sendChatMessage(
+    message: string,
+    chatHistory: BackendChatEntry[]
+): Promise<SendChatMessageResult> {
     const response = await fetch("http://127.0.0.1:5000/chat", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({
+            message,
+            chat_history: chatHistory,
+        }),
     });
 
     if (!response.ok) {
@@ -30,20 +43,16 @@ export async function sendChatMessage(message: string): Promise<string> {
 
     const data: ChatApiResponse = await response.json();
 
-    const botReply =
-        data.response ||
-        data.reply ||
-        data.answer ||
-        data.message ||
-        data.data?.response ||
-        data.data?.reply ||
-        data.data?.answer ||
-        data.data?.message ||
-        data.data?.chat_entry?.bot_response;
+    const chatEntry = data.data?.chat_entry;
+    const updatedChatHistory = data.data?.chat_history;
 
-    if (!botReply) {
-        throw new Error("Backend response did not include a chatbot message.");
+    if (!chatEntry || !updatedChatHistory) {
+        throw new Error("Backend response did not include chat data.");
     }
 
-    return botReply;
+    return {
+        botReply: chatEntry.bot_response,
+        chatEntry,
+        chatHistory: updatedChatHistory,
+    };
 }

@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { sendChatMessage } from "../api/chatApi";
+import {
+    sendChatMessage,
+    type BackendChatEntry,
+} from "../api/chatApi";
 
 type ChatMessage = {
     id: number;
@@ -22,6 +25,9 @@ const initialMessages: ChatMessage[] = [
 
 function ChatPanel() {
     const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+    const [backendChatHistory, setBackendChatHistory] = useState<
+        BackendChatEntry[]
+    >([]);
     const [messageText, setMessageText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
@@ -45,15 +51,19 @@ function ChatPanel() {
         setIsLoading(true);
 
         try {
-            const botReply = await sendChatMessage(trimmedMessage);
+            const result = await sendChatMessage(
+                trimmedMessage,
+                backendChatHistory
+            );
 
             const botMessage: ChatMessage = {
                 id: Date.now() + 1,
                 sender: "bot",
-                text: botReply,
+                text: result.botReply,
             };
 
             setMessages((currentMessages) => [...currentMessages, botMessage]);
+            setBackendChatHistory(result.chatHistory);
         } catch {
             const errorMessage: ChatMessage = {
                 id: Date.now() + 1,
