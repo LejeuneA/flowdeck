@@ -5,11 +5,11 @@ import DashboardStats from "./components/DashboardStats";
 import ProjectsSection from "./components/ProjectsSection";
 import Sidebar from "./components/Sidebar";
 import { projects } from "./data/projects";
+import type { ProjectStatusFilter } from "./types/Project";
 
 function App() {
-    const [selectedStatus, setSelectedStatus] = useState<
-        "All" | "To Do" | "In Progress" | "Completed"
-    >("All");
+    const [selectedStatus, setSelectedStatus] =
+        useState<ProjectStatusFilter>("All");
 
     const totalProjects = projects.length;
 

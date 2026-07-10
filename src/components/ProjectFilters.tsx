@@ -1,13 +1,11 @@
-import type { Project } from "../types/Project";
-
-type FilterStatus = "All" | Project["status"];
+import type { ProjectStatusFilter } from "../types/Project";
 
 type ProjectFiltersProps = {
-    selectedStatus: FilterStatus;
-    onStatusChange: (status: FilterStatus) => void;
+    selectedStatus: ProjectStatusFilter;
+    onStatusChange: (status: ProjectStatusFilter) => void;
 };
 
-const filterOptions: FilterStatus[] = [
+const filterOptions: ProjectStatusFilter[] = [
     "All",
     "To Do",
     "In Progress",

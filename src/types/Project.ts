@@ -9,3 +9,5 @@ export type Project = {
   progress: number;
   completed: boolean;
 };
+
+export type ProjectStatusFilter = "All" | Project["status"];

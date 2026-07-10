@@ -1,12 +1,10 @@
 import ProjectFilters from "./ProjectFilters";
 import ProjectList from "./ProjectList";
-import type { Project } from "../types/Project";
-
-type FilterStatus = "All" | Project["status"];
+import type { Project, ProjectStatusFilter } from "../types/Project";
 
 type ProjectsSectionProps = {
-    selectedStatus: FilterStatus;
-    onStatusChange: (status: FilterStatus) => void;
+    selectedStatus: ProjectStatusFilter;
+    onStatusChange: (status: ProjectStatusFilter) => void;
     filteredProjects: Project[];
 };
 
