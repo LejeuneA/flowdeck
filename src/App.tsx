@@ -2,8 +2,7 @@ import { useState } from "react";
 import ChatPanel from "./components/ChatPanel";
 import DashboardHeader from "./components/DashboardHeader";
 import DashboardStats from "./components/DashboardStats";
-import ProjectFilters from "./components/ProjectFilters";
-import ProjectList from "./components/ProjectList";
+import ProjectsSection from "./components/ProjectsSection";
 import Sidebar from "./components/Sidebar";
 import { projects } from "./data/projects";
 
@@ -45,23 +44,11 @@ function App() {
                     highPriorityProjects={highPriorityProjects}
                 />
 
-                <section>
-                    <div className="flowdeck__toolbar">
-                        <h3 className="flowdeck__section-title">
-                            Projects{" "}
-                            <span className="flowdeck__section-count">
-                                {filteredProjects.length}
-                            </span>
-                        </h3>
-
-                        <ProjectFilters
-                            selectedStatus={selectedStatus}
-                            onStatusChange={setSelectedStatus}
-                        />
-                    </div>
-
-                    <ProjectList projects={filteredProjects} />
-                </section>
+                <ProjectsSection
+                    selectedStatus={selectedStatus}
+                    onStatusChange={setSelectedStatus}
+                    filteredProjects={filteredProjects}
+                />
             </main>
 
             <ChatPanel />
