@@ -466,6 +466,11 @@ button {
         color: #ffffff;
         background: linear-gradient(135deg, #6366f1, #14b8a6);
     }
+
+    &--loading {
+        color: #94a3b8;
+        font-style: italic;
+    }
 }
 
 .assistant-panel__form {
@@ -492,6 +497,11 @@ button {
         border-color: rgba(56, 189, 248, 0.72);
         box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
     }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
 }
 
 .assistant-panel__send {
@@ -508,12 +518,14 @@ button {
 }
 
 .assistant-panel__hint {
-    border: 1px solid rgba(99, 102, 241, 0.16);
+    border: 1px solid rgba(99, 102, 241, 0.18);
     border-radius: 1rem;
-    margin-top: 0.85rem;
-    padding: 0.75rem 0.85rem;
+    margin-top: 0.9rem;
+    padding: 0.8rem 0.9rem;
     color: #cbd5e1;
-    background: rgba(99, 102, 241, 0.08);
+    background: linear-gradient(135deg,
+            rgba(99, 102, 241, 0.11),
+            rgba(20, 184, 166, 0.07));
     font-size: 0.8rem;
     line-height: 1.5;
 }

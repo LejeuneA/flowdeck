@@ -12,6 +12,7 @@ type QuickCommand = {
     command: string;
 };
 
+
 const initialMessages: ChatMessage[] = [
     {
         id: 1,
@@ -21,17 +22,21 @@ const initialMessages: ChatMessage[] = [
     {
         id: 2,
         sender: "bot",
-        text: "Ask me about projects, priorities, deadlines, status, or summaries.",
+        text: "Ask me about projects, tasks, priorities, deadlines, status, summaries, or what to focus on first.",
     },
 ];
 
 const quickCommands: QuickCommand[] = [
-    { label: "Projects", command: "p" },
+    { label: "All projects", command: "p" },
     { label: "Tasks", command: "t" },
-    { label: "Urgent", command: "u" },
+    { label: "Priorities", command: "u" },
     { label: "Deadlines", command: "d" },
     { label: "Status", command: "s" },
     { label: "Summary", command: "sm" },
+    {
+        label: "Focus first",
+        command: "Which project should I focus on first and why?",
+    },
 ];
 
 function ChatPanel() {
@@ -110,7 +115,8 @@ function ChatPanel() {
                 </p>
 
                 <div className="assistant-panel__hint">
-                    Ask about projects, deadlines, priorities, status, summaries, or what to focus on first.
+                    Ask Flowdeck to list projects, check deadlines, review priorities, summarize
+                    progress, or recommend what to focus on first.
                 </div>
 
                 <div className="assistant-panel__quick-actions">
@@ -148,7 +154,9 @@ function ChatPanel() {
                 ))}
 
                 {isLoading && (
-                    <div className="chat-message chat-message--bot">Thinking...</div>
+                    <div className="chat-message chat-message--bot chat-message--loading">
+                        Flowdeck is thinking...
+                    </div>
                 )}
 
                 <div ref={messagesEndRef} />
@@ -158,8 +166,9 @@ function ChatPanel() {
                 <input
                     className="assistant-panel__input"
                     type="text"
-                    placeholder="Ask Flowdeck..."
+                    placeholder="Ask about projects, deadlines, or focus..."
                     value={messageText}
+                    disabled={isLoading}
                     onChange={(event) => setMessageText(event.target.value)}
                 />
 
