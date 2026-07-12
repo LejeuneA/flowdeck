@@ -1,4 +1,5 @@
 import type { Project } from "../types/Project";
+import { formatDisplayDate } from "../utils/dateFormat";
 
 type ProjectCardProps = Omit<Project, "id">;
 
@@ -31,7 +32,7 @@ function ProjectCard({
 
                 <div className="project-card__meta-row">
                     <span>Deadline</span>
-                    <strong>{deadline}</strong>
+                    <strong>{formatDisplayDate(deadline)}</strong>
                 </div>
 
                 <div className="project-card__meta-row">
