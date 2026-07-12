@@ -7,29 +7,38 @@ import Sidebar from "./components/Sidebar";
 import { projects } from "./data/projects";
 import type { ProjectStatusFilter } from "./types/Project";
 import { getProjectStats } from "./utils/projectStats";
+import { createDefaultProject } from "./utils/createProject";
 
 function App() {
     const [selectedStatus, setSelectedStatus] =
         useState<ProjectStatusFilter>("All");
+
+    const [projectList, setProjectList] = useState(projects);
+
+    function handleAddProject() {
+        const newProject = createDefaultProject();
+
+        setProjectList((currentProjects) => [...currentProjects, newProject]);
+    }
 
     const {
         totalProjects,
         inProgressProjects,
         completedProjects,
         highPriorityProjects,
-    } = getProjectStats(projects);
+    } = getProjectStats(projectList);
 
     const filteredProjects =
         selectedStatus === "All"
-            ? projects
-            : projects.filter((project) => project.status === selectedStatus);
+            ? projectList
+            : projectList.filter((project) => project.status === selectedStatus);
 
     return (
         <div className="flowdeck">
             <Sidebar />
 
             <main className="flowdeck__main">
-                <DashboardHeader />
+                <DashboardHeader onAddProject={handleAddProject} />
 
                 <DashboardStats
                     totalProjects={totalProjects}
