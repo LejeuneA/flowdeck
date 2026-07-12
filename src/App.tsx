@@ -2,23 +2,22 @@ import { useState } from "react";
 import ChatPanel from "./components/ChatPanel";
 import DashboardHeader from "./components/DashboardHeader";
 import DashboardStats from "./components/DashboardStats";
+import ProjectForm from "./components/ProjectForm";
 import ProjectsSection from "./components/ProjectsSection";
 import Sidebar from "./components/Sidebar";
 import { projects } from "./data/projects";
 import type { ProjectStatusFilter } from "./types/Project";
 import { getProjectStats } from "./utils/projectStats";
-import { createDefaultProject } from "./utils/createProject";
 
 function App() {
     const [selectedStatus, setSelectedStatus] =
         useState<ProjectStatusFilter>("All");
 
-    const [projectList, setProjectList] = useState(projects);
+    const [projectList] = useState(projects);
+    const [isProjectFormOpen, setIsProjectFormOpen] = useState(false);
 
     function handleAddProject() {
-        const newProject = createDefaultProject();
-
-        setProjectList((currentProjects) => [...currentProjects, newProject]);
+        setIsProjectFormOpen(true);
     }
 
     const {
@@ -46,6 +45,10 @@ function App() {
                     completedProjects={completedProjects}
                     highPriorityProjects={highPriorityProjects}
                 />
+
+                {isProjectFormOpen && (
+                    <ProjectForm onCancel={() => setIsProjectFormOpen(false)} />
+                )}
 
                 <ProjectsSection
                     selectedStatus={selectedStatus}
