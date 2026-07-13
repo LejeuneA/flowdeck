@@ -1,8 +1,39 @@
+import { useState } from "react";
+import type { Project, ProjectPriority, ProjectStatus } from "../types/Project";
+
 type ProjectFormProps = {
     onCancel: () => void;
+    onCreateProject: (project: Project) => void;
 };
 
-function ProjectForm({ onCancel }: ProjectFormProps) {
+function ProjectForm({ onCancel, onCreateProject }: ProjectFormProps) {
+    const [title, setTitle] = useState("");
+    const [client, setClient] = useState("");
+    const [status, setStatus] = useState<ProjectStatus>("To Do");
+    const [priority, setPriority] = useState<ProjectPriority>("Medium");
+    const [deadline, setDeadline] = useState("");
+    const [category, setCategory] = useState("");
+
+
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        const newProject: Project = {
+            id: Date.now(),
+            title: title.trim(),
+            client: client.trim(),
+            status,
+            priority,
+            deadline,
+            category: category.trim(),
+            progress: status === "Completed" ? 100 : 0,
+            completed: status === "Completed",
+        };
+
+        onCreateProject(newProject);
+    }
+
+
     return (
         <section className="project-form">
             <div className="project-form__header">
@@ -20,20 +51,33 @@ function ProjectForm({ onCancel }: ProjectFormProps) {
                 </button>
             </div>
 
-            <form className="project-form__grid">
+            <form className="project-form__grid" onSubmit={handleSubmit}>
                 <label className="project-form__field">
                     <span>Project title</span>
-                    <input type="text" placeholder="Website redesign" />
+                    <input
+                        type="text"
+                        placeholder="Website redesign"
+                        value={title}
+                        onChange={(event) => setTitle(event.target.value)}
+                    />
                 </label>
 
                 <label className="project-form__field">
                     <span>Client</span>
-                    <input type="text" placeholder="Northstar Studio" />
+                    <input
+                        type="text"
+                        placeholder="Northstar Studio"
+                        value={client}
+                        onChange={(event) => setClient(event.target.value)}
+                    />
                 </label>
 
                 <label className="project-form__field">
                     <span>Status</span>
-                    <select defaultValue="To Do">
+                    <select
+                        value={status}
+                        onChange={(event) => setStatus(event.target.value as ProjectStatus)}
+                    >
                         <option>To Do</option>
                         <option>In Progress</option>
                         <option>Completed</option>
@@ -42,7 +86,12 @@ function ProjectForm({ onCancel }: ProjectFormProps) {
 
                 <label className="project-form__field">
                     <span>Priority</span>
-                    <select defaultValue="Medium">
+                    <select
+                        value={priority}
+                        onChange={(event) =>
+                            setPriority(event.target.value as ProjectPriority)
+                        }
+                    >
                         <option>Low</option>
                         <option>Medium</option>
                         <option>High</option>
@@ -51,16 +100,29 @@ function ProjectForm({ onCancel }: ProjectFormProps) {
 
                 <label className="project-form__field">
                     <span>Deadline</span>
-                    <input type="date" />
+                    <input
+                        type="date"
+                        value={deadline}
+                        onChange={(event) => setDeadline(event.target.value)}
+                    />
                 </label>
 
                 <label className="project-form__field">
                     <span>Category</span>
-                    <input type="text" placeholder="Web design" />
+                    <input
+                        type="text"
+                        placeholder="Web design"
+                        value={category}
+                        onChange={(event) => setCategory(event.target.value)}
+                    />
                 </label>
 
                 <div className="project-form__actions">
-                    <button type="button" className="project-form__secondary" onClick={onCancel}>
+                    <button
+                        type="button"
+                        className="project-form__secondary"
+                        onClick={onCancel}
+                    >
                         Cancel
                     </button>
 

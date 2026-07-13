@@ -13,11 +13,16 @@ function App() {
     const [selectedStatus, setSelectedStatus] =
         useState<ProjectStatusFilter>("All");
 
-    const [projectList] = useState(projects);
+    const [projectList, setProjectList] = useState(projects);
     const [isProjectFormOpen, setIsProjectFormOpen] = useState(false);
 
     function handleAddProject() {
         setIsProjectFormOpen(true);
+    }
+
+    function handleCreateProject(project: (typeof projects)[number]) {
+        setProjectList((currentProjects) => [...currentProjects, project]);
+        setIsProjectFormOpen(false);
     }
 
     const {
@@ -47,7 +52,10 @@ function App() {
                 />
 
                 {isProjectFormOpen && (
-                    <ProjectForm onCancel={() => setIsProjectFormOpen(false)} />
+                    <ProjectForm
+                        onCancel={() => setIsProjectFormOpen(false)}
+                        onCreateProject={handleCreateProject}
+                    />
                 )}
 
                 <ProjectsSection
