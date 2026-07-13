@@ -65,7 +65,7 @@ function App() {
                 />
             </main>
 
-            <ChatPanel />
+            <ChatPanel projects={projectList} />
         </div>
     );
 }

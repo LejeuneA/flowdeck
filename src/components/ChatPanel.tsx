@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { sendChatMessage, type BackendChatEntry } from "../api/chatApi";
+import type { Project } from "../types/Project";
+
+type ChatPanelProps = {
+    projects: Project[];
+};
 
 type ChatMessage = {
     id: number;
@@ -39,7 +44,7 @@ const quickCommands: QuickCommand[] = [
     },
 ];
 
-function ChatPanel() {
+function ChatPanel({ projects }: ChatPanelProps) {
     const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
     const [backendChatHistory, setBackendChatHistory] = useState<
         BackendChatEntry[]
@@ -71,7 +76,11 @@ function ChatPanel() {
         setIsLoading(true);
 
         try {
-            const result = await sendChatMessage(trimmedMessage, backendChatHistory);
+            const result = await sendChatMessage(
+                trimmedMessage,
+                backendChatHistory,
+                projects
+            );
 
             const botMessage: ChatMessage = {
                 id: Date.now() + 1,
@@ -115,8 +124,8 @@ function ChatPanel() {
                 </p>
 
                 <div className="assistant-panel__hint">
-                    Ask Flowdeck to list projects, check deadlines, review priorities, summarize
-                    progress, or recommend what to focus on first.
+                    Ask Flowdeck to list projects, check deadlines, review priorities, or
+                    recommend what to focus on first.
                 </div>
 
                 <div className="assistant-panel__quick-actions">

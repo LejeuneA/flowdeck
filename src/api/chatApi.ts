@@ -1,3 +1,5 @@
+import type { Project } from "../types/Project";
+
 export type BackendChatEntry = {
     user_message: string;
     intent: string;
@@ -24,7 +26,8 @@ export type SendChatMessageResult = {
 
 export async function sendChatMessage(
     message: string,
-    chatHistory: BackendChatEntry[]
+    chatHistory: BackendChatEntry[],
+    projects: Project[]
 ): Promise<SendChatMessageResult> {
     const response = await fetch("http://127.0.0.1:5000/chat", {
         method: "POST",
@@ -34,6 +37,7 @@ export async function sendChatMessage(
         body: JSON.stringify({
             message,
             chat_history: chatHistory,
+            projects,
         }),
     });
 
