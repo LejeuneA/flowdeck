@@ -47,6 +47,12 @@ function App() {
         setIsProjectFormOpen(false);
     }
 
+    function handleDeleteProject(projectId: number) {
+        setProjectList((currentProjects) =>
+            currentProjects.filter((project) => project.id !== projectId)
+        );
+    }
+
     const {
         totalProjects,
         inProgressProjects,
@@ -84,6 +90,7 @@ function App() {
                     selectedStatus={selectedStatus}
                     onStatusChange={setSelectedStatus}
                     filteredProjects={filteredProjects}
+                    onDeleteProject={handleDeleteProject}
                 />
             </main>
 

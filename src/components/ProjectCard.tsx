@@ -1,9 +1,13 @@
 import type { Project } from "../types/Project";
 import { formatDisplayDate } from "../utils/dateFormat";
 
-type ProjectCardProps = Omit<Project, "id">;
+type ProjectCardProps = Omit<Project, "id"> & {
+    id: number;
+    onDeleteProject: (projectId: number) => void;
+};
 
 function ProjectCard({
+    id,
     title,
     client,
     status,
@@ -12,6 +16,7 @@ function ProjectCard({
     category,
     progress,
     completed,
+    onDeleteProject,
 }: ProjectCardProps) {
     return (
         <article className="project-card">
@@ -59,6 +64,14 @@ function ProjectCard({
                     />
                 </div>
             </div>
+
+            <button
+                className="project-card__delete"
+                type="button"
+                onClick={() => onDeleteProject(id)}
+            >
+                Delete
+            </button>
         </article>
     );
 }

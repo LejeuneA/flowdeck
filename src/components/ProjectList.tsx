@@ -3,22 +3,17 @@ import type { Project } from "../types/Project";
 
 type ProjectListProps = {
     projects: Project[];
+    onDeleteProject: (projectId: number) => void;
 };
 
-function ProjectList({ projects }: ProjectListProps) {
+function ProjectList({ projects, onDeleteProject }: ProjectListProps) {
     return (
         <div className="project-grid">
             {projects.map((project) => (
                 <ProjectCard
                     key={project.id}
-                    title={project.title}
-                    client={project.client}
-                    status={project.status}
-                    priority={project.priority}
-                    deadline={project.deadline}
-                    category={project.category}
-                    progress={project.progress}
-                    completed={project.completed}
+                    {...project}
+                    onDeleteProject={onDeleteProject}
                 />
             ))}
         </div>

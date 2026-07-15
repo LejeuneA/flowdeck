@@ -6,12 +6,14 @@ type ProjectsSectionProps = {
     selectedStatus: ProjectStatusFilter;
     onStatusChange: (status: ProjectStatusFilter) => void;
     filteredProjects: Project[];
+    onDeleteProject: (projectId: number) => void;
 };
 
 function ProjectsSection({
     selectedStatus,
     onStatusChange,
     filteredProjects,
+    onDeleteProject,
 }: ProjectsSectionProps) {
     return (
         <section>
@@ -29,7 +31,10 @@ function ProjectsSection({
                 />
             </div>
 
-            <ProjectList projects={filteredProjects} />
+            <ProjectList
+                projects={filteredProjects}
+                onDeleteProject={onDeleteProject}
+            />
         </section>
     );
 }
