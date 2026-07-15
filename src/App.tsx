@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChatPanel from "./components/ChatPanel";
 import DashboardHeader from "./components/DashboardHeader";
 import DashboardStats from "./components/DashboardStats";
@@ -6,21 +6,43 @@ import ProjectForm from "./components/ProjectForm";
 import ProjectsSection from "./components/ProjectsSection";
 import Sidebar from "./components/Sidebar";
 import { projects } from "./data/projects";
-import type { ProjectStatusFilter } from "./types/Project";
+import type { Project, ProjectStatusFilter } from "./types/Project";
 import { getProjectStats } from "./utils/projectStats";
+
+const STORAGE_KEY = "flowdeck-projects";
+
+function getInitialProjects(): Project[] {
+    const savedProjects = localStorage.getItem(STORAGE_KEY);
+
+    if (!savedProjects) {
+        return projects;
+    }
+
+    try {
+        return JSON.parse(savedProjects) as Project[];
+    } catch {
+        return projects;
+    }
+}
 
 function App() {
     const [selectedStatus, setSelectedStatus] =
         useState<ProjectStatusFilter>("All");
 
-    const [projectList, setProjectList] = useState(projects);
+    const [projectList, setProjectList] =
+        useState<Project[]>(getInitialProjects);
+
     const [isProjectFormOpen, setIsProjectFormOpen] = useState(false);
+
+    useEffect(() => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(projectList));
+    }, [projectList]);
 
     function handleAddProject() {
         setIsProjectFormOpen(true);
     }
 
-    function handleCreateProject(project: (typeof projects)[number]) {
+    function handleCreateProject(project: Project) {
         setProjectList((currentProjects) => [...currentProjects, project]);
         setIsProjectFormOpen(false);
     }
