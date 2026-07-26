@@ -2,129 +2,165 @@
 
 **Flowdeck** is a creative project management dashboard built with **React** and **TypeScript**.
 
-The project is designed as a learning and portfolio project. Its main goal is to practise modern frontend development while building a realistic product interface for freelancers, UX/UI designers, and small creative teams.
+This project is part of the personal portfolio of **Açelya Lejeune**. It is published publicly for portfolio review, recruitment evaluation and professional presentation purposes only.
+
+Flowdeck is not an open-source project, starter template, tutorial project or reusable dashboard product.
+
+## Portfolio Review Notice
+
+This repository is made public so that recruiters, hiring teams and collaborators can review the project structure, code quality, interface logic and product thinking behind Flowdeck.
+
+You may view the code and review the project for evaluation purposes.
+
+You may not copy, reuse, modify, distribute, publish, deploy, self-host or use this project or any part of it in your own work, portfolio, product, tutorial, template or commercial project.
+
+Installation, setup, deployment and self-hosting instructions are intentionally not provided.
 
 ## Project Overview
 
-Flowdeck helps creative professionals track projects, clients, deadlines, priorities, progress, and completion status in one simple dashboard.
+Flowdeck is a project management dashboard concept designed for freelancers, UX/UI designers and small creative teams.
 
-The current version focuses on the foundations of a React + TypeScript application:
+The application focuses on helping users understand their projects, deadlines, priorities, progress and completion status through a clean and structured dashboard interface.
 
-* reusable components
-* typed project data
-* props
-* union types
-* arrays and objects
-* rendering lists with `map()`
-* clean project structure
-* Git and GitHub workflow
+The project combines:
 
-This project will grow step by step into a more complete dashboard application.
+- UX/UI design thinking
+- React component architecture
+- TypeScript data structures
+- responsive interface development
+- project filtering and status logic
+- dashboard-style information hierarchy
+- the foundation for a future AI assistant experience
 
 ## Current Features
 
-* React + TypeScript setup with Vite
-* reusable `ProjectCard` component
-* shared `Project` type
-* project data stored in an array
-* project cards rendered with `map()`
-* project details:
+The current version includes:
 
-  * title
-  * client
-  * status
-  * priority
-  * deadline
-  * category
-  * progress
-  * completed state
-* basic boolean rendering for completed projects
-* GitHub repository setup
+- React + TypeScript frontend
+- Vite project setup
+- SCSS-based styling
+- reusable component structure
+- typed project data
+- shared TypeScript project types
+- project cards rendered dynamically
+- project status, priority, deadline and progress information
+- project filtering by status
+- dashboard statistics
+- progress indicators
+- responsive layout foundations
+- dark dashboard interface
+- Flowdeck Assistant panel UI
+- frontend structure prepared for API-based communication
+
+## AI Assistant Foundation
+
+Flowdeck also includes the foundation for a future AI-powered assistant experience.
+
+The assistant is designed to help users understand project status, priorities and risks in a simple and practical way.
+
+Planned assistant capabilities include:
+
+- summarizing active projects
+- identifying projects that need attention
+- highlighting urgent or overdue work
+- suggesting next actions
+- helping users understand project workload
+- generating short project status insights
+
+The AI assistant foundation is being developed step by step as part of my transition from UX/UI and frontend development toward AI-powered application development.
 
 ## Tech Stack
 
-* React
-* TypeScript
-* Vite
-* HTML
-* CSS
-* Git
-* GitHub
+Frontend:
 
-## Project Structure
+- React
+- TypeScript
+- Vite
+- SCSS
+- HTML
+- CSS
 
-```txt
-src/
-├── components/
-│   └── ProjectCard.tsx
-├── types/
-│   └── Project.ts
-├── App.tsx
-├── main.tsx
-└── index.css
-```
+Development workflow:
 
-## Learning Goals
+- Git
+- GitHub
+- component-based architecture
+- typed data structures
+- frontend/backend separation
 
-This project is part of my transition from UX/UI design into frontend and AI-powered application development.
+AI assistant foundation:
 
-Through Flowdeck, I am practising:
+- Python
+- Flask
+- API-based architecture
 
-* building reusable React components
-* passing and typing props
-* working with TypeScript types
-* using arrays and objects in React
-* rendering dynamic UI with `map()`
-* keeping data and UI structure organized
-* writing code I can understand, explain, and improve
-* building a portfolio project step by step instead of copying a finished template
+## Architecture
 
-## Roadmap
+Flowdeck is structured as a modern frontend application with a separate backend/assistant foundation.
 
-Planned next steps:
+The frontend is responsible for:
 
-* improve the dashboard layout
-* add filtering by status and priority
-* add project statistics
-* add project creation form
-* add edit and delete functionality
-* store projects in `localStorage`
-* create a dark theme UI
-* improve responsive design
-* add accessibility improvements
-* add a small mock Flowdeck Assistant
-* later explore real AI-powered features
+- interface layout
+- dashboard components
+- project cards
+- filtering
+- visual feedback
+- assistant panel UI
+- API communication
 
-## Future AI Ideas
+The backend/assistant foundation is responsible for:
 
-Flowdeck may later include a small assistant that can help users understand project status and risks.
+- message processing
+- assistant response logic
+- project-related summaries
+- future AI feature expansion
 
-Possible features:
+This separation keeps the project closer to a real-world product architecture, where the frontend and backend communicate through an API instead of being tightly coupled.
 
-* summarize active projects
-* detect projects that need attention
-* suggest next tasks based on project type
-* generate short client update messages
-* identify low-progress or risky projects
+## Project Purpose
 
-The first version of this assistant will be a simple mock assistant based on project data. A real AI API integration may be added later.
+Flowdeck was created to demonstrate my ability to combine design, frontend development and AI application thinking in one portfolio project.
+
+The project shows how I approach:
+
+- translating a product idea into a usable interface
+- structuring a React + TypeScript application
+- creating reusable UI components
+- working with typed data
+- designing a dashboard experience
+- preparing a frontend project for future backend and AI integration
+- building portfolio projects from concept to implementation
 
 ## Status
 
-This project is currently in early development.
+Flowdeck is currently presented as a portfolio case study.
 
-The focus right now is learning and building strong React + TypeScript foundations before adding advanced features.
+The live preview will be added after the application is completed and prepared for deployment.
+
+Until then, the project is available for professional review only through this repository and the portfolio case study page.
+
+## Portfolio Case Study
+
+Flowdeck case study:
+
+https://acelyalejeune.com/public/flowdeck.html
 
 ## Author
 
-**Açelya Lejeune**
-Senior UX/UI Designer · Frontend Developer · AI Application Developer
+**Açelya Lejeune**  
+Senior UX/UI Designer · Frontend Developer · AI Application Development
 
-GitHub: [LejeuneA](https://github.com/LejeuneA)
+GitHub: [LejeuneA](https://github.com/LejeuneA)  
+Portfolio: https://acelyalejeune.com
 
 ## License
 
 Copyright © 2026 Açelya Lejeune. All rights reserved.
 
-This source code is provided for portfolio and evaluation purposes only.
-No permission is granted to copy, modify, distribute, sublicense, or use this project or any part of it without prior written permission from the author.
+This project is provided publicly for portfolio review purposes only.
+
+No permission is granted to copy, reuse, modify, publish, distribute, sublicense, sell, deploy, self-host or use this project or any part of it without prior written permission from the author.
+
+The source code, design, structure, interface, visual assets, text content and project concept remain the property of Açelya Lejeune.
+
+Third-party libraries, frameworks and dependencies used in this project remain subject to their own licenses.
