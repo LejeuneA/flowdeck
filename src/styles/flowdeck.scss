@@ -110,6 +110,25 @@ button {
         background: rgba(99, 102, 241, 0.18);
         transform: translateX(2px);
     }
+
+    &:disabled {
+        cursor: not-allowed;
+        color: #64748b;
+        opacity: 0.65;
+        transform: none;
+    }
+}
+
+.flowdeck__nav-label {
+    float: right;
+    border-radius: 999px;
+    padding: 0.15rem 0.4rem;
+    color: #94a3b8;
+    background: rgba(148, 163, 184, 0.12);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .flowdeck__profile {
@@ -158,7 +177,8 @@ button {
     line-height: 0.95;
 }
 
-.flowdeck__description {
+.flowdeck__description,
+.flowdeck__subtitle {
     max-width: 38rem;
     margin: 0.9rem 0 0;
     color: #94a3b8;
@@ -180,12 +200,43 @@ button {
         transform: translateY(-2px);
         box-shadow: 0 20px 50px rgba(99, 102, 241, 0.38);
     }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+        transform: none;
+        box-shadow: none;
+    }
+
+    &:disabled:hover {
+        transform: none;
+        box-shadow: none;
+    }
 }
 
 .flowdeck__header-actions {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 0.75rem;
+}
+
+.flowdeck__demo-limit {
+    display: grid;
+    gap: 0.2rem;
+    text-align: right;
+
+    span {
+        color: #64748b;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    strong {
+        color: #cbd5e1;
+        font-size: 0.9rem;
+    }
 }
 
 .flowdeck__secondary-button {
@@ -466,6 +517,14 @@ button {
     font-size: 1.25rem;
 }
 
+.project-form__description {
+    max-width: 34rem;
+    margin: 0.45rem 0 0;
+    color: #64748b;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
 .project-form__close {
     border: 0;
     padding: 0.2rem 0;
@@ -552,8 +611,78 @@ button {
     &:hover {
         transform: translateY(-1px);
     }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+        transform: none;
+        box-shadow: none;
+    }
+
+    &:disabled:hover {
+        transform: none;
+    }
 }
 
+.projects-page {
+    min-height: 100%;
+}
+
+.projects-page__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.projects-page__title {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    letter-spacing: -0.06em;
+    line-height: 1;
+}
+
+.projects-page__description {
+    max-width: 38rem;
+    margin: 0.9rem 0 0;
+    color: #94a3b8;
+    line-height: 1.6;
+}
+
+.projects-page__notice {
+    max-width: 38rem;
+    margin: 0.65rem 0 0;
+    color: #64748b;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.projects-page__actions {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.75rem;
+}
+
+.project-list__empty {
+    border: 1px dashed rgba(148, 163, 184, 0.2);
+    border-radius: 1.2rem;
+    padding: 2rem;
+    text-align: center;
+    background: rgba(15, 23, 42, 0.45);
+
+    h3 {
+        margin: 0;
+        color: #e2e8f0;
+        font-size: 1rem;
+    }
+
+    p {
+        margin: 0.5rem 0 0;
+        color: #64748b;
+        font-size: 0.85rem;
+    }
+}
 
 .flowdeck__assistant {
     padding: 1.25rem;
@@ -785,9 +914,16 @@ button {
     }
 
     .flowdeck__header,
-    .flowdeck__toolbar {
+    .flowdeck__toolbar,
+    .flowdeck__header-actions,
+    .projects-page__header,
+    .projects-page__actions {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .flowdeck__demo-limit {
+        text-align: left;
     }
 
     .flowdeck__stats,

@@ -3,11 +3,17 @@ import ChatPanel from "./components/ChatPanel";
 import DashboardHeader from "./components/DashboardHeader";
 import DashboardStats from "./components/DashboardStats";
 import ProjectForm from "./components/ProjectForm";
+import ProjectsPage from "./components/ProjectsPage";
 import ProjectsSection from "./components/ProjectsSection";
 import Sidebar from "./components/Sidebar";
 import { projects } from "./data/projects";
-import type { Project, ProjectStatusFilter } from "./types/Project";
+import type {
+    Project,
+    ProjectStatusFilter,
+} from "./types/Project";
 import { getProjectStats } from "./utils/projectStats";
+
+type AppView = "dashboard" | "projects";
 
 const DEMO_PROJECT_LIMIT = 10;
 const SESSION_STORAGE_KEY = "flowdeck-demo-projects";
@@ -22,19 +28,25 @@ function getInitialProjects(): Project[] {
     }
 
     try {
-        const parsedProjects = JSON.parse(savedProjects);
+        const parsedProjects: unknown = JSON.parse(savedProjects);
 
         if (!Array.isArray(parsedProjects)) {
             return projects;
         }
 
-        return parsedProjects.slice(0, DEMO_PROJECT_LIMIT) as Project[];
+        return parsedProjects.slice(
+            0,
+            DEMO_PROJECT_LIMIT
+        ) as Project[];
     } catch {
         return projects;
     }
 }
 
 function App() {
+    const [activeView, setActiveView] =
+        useState<AppView>("dashboard");
+
     const [selectedStatus, setSelectedStatus] =
         useState<ProjectStatusFilter>("All");
 
@@ -54,6 +66,11 @@ function App() {
         );
     }, [projectList]);
 
+    function handleNavigate(view: AppView) {
+        setActiveView(view);
+        setIsProjectFormOpen(false);
+    }
+
     function handleAddProject() {
         if (hasReachedProjectLimit) {
             return;
@@ -65,7 +82,8 @@ function App() {
     function handleCreateProject(project: Project) {
         setProjectList((currentProjects) => {
             if (
-                currentProjects.length >= DEMO_PROJECT_LIMIT
+                currentProjects.length >=
+                DEMO_PROJECT_LIMIT
             ) {
                 return currentProjects;
             }
@@ -82,6 +100,15 @@ function App() {
                 (project) => project.id !== projectId
             )
         );
+    }
+
+    function handleOpenAssistant() {
+        document
+            .getElementById("flowdeck-assistant")
+            ?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
     }
 
     const {
@@ -101,37 +128,88 @@ function App() {
 
     return (
         <div className="flowdeck">
-            <Sidebar />
+            <Sidebar
+                activeView={activeView}
+                onNavigate={handleNavigate}
+                onOpenAssistant={handleOpenAssistant}
+            />
 
             <main className="flowdeck__main">
-                <DashboardHeader
-                    onAddProject={handleAddProject}
-                />
+                {activeView === "dashboard" && (
+                    <>
+                        <DashboardHeader
+                            onAddProject={handleAddProject}
+                            projectCount={projectList.length}
+                            projectLimit={DEMO_PROJECT_LIMIT}
+                            hasReachedProjectLimit={
+                                hasReachedProjectLimit
+                            }
+                        />
 
-                <DashboardStats
-                    totalProjects={totalProjects}
-                    inProgressProjects={inProgressProjects}
-                    completedProjects={completedProjects}
-                    highPriorityProjects={highPriorityProjects}
-                />
+                        <DashboardStats
+                            totalProjects={totalProjects}
+                            inProgressProjects={
+                                inProgressProjects
+                            }
+                            completedProjects={
+                                completedProjects
+                            }
+                            highPriorityProjects={
+                                highPriorityProjects
+                            }
+                        />
 
-                {isProjectFormOpen && (
-                    <ProjectForm
-                        onCancel={() =>
-                            setIsProjectFormOpen(false)
+                        {isProjectFormOpen && (
+                            <ProjectForm
+                                onCancel={() =>
+                                    setIsProjectFormOpen(false)
+                                }
+                                onCreateProject={
+                                    handleCreateProject
+                                }
+                            />
+                        )}
+
+                        <ProjectsSection
+                            selectedStatus={selectedStatus}
+                            onStatusChange={
+                                setSelectedStatus
+                            }
+                            filteredProjects={
+                                filteredProjects
+                            }
+                            onDeleteProject={
+                                handleDeleteProject
+                            }
+                        />
+                    </>
+                )}
+
+                {activeView === "projects" && (
+                    <ProjectsPage
+                        projects={filteredProjects}
+                        selectedStatus={selectedStatus}
+                        onStatusChange={setSelectedStatus}
+                        onDeleteProject={
+                            handleDeleteProject
                         }
+                        onAddProject={handleAddProject}
                         onCreateProject={
                             handleCreateProject
                         }
+                        onCancelProjectForm={() =>
+                            setIsProjectFormOpen(false)
+                        }
+                        isProjectFormOpen={
+                            isProjectFormOpen
+                        }
+                        projectCount={projectList.length}
+                        projectLimit={DEMO_PROJECT_LIMIT}
+                        hasReachedProjectLimit={
+                            hasReachedProjectLimit
+                        }
                     />
                 )}
-
-                <ProjectsSection
-                    selectedStatus={selectedStatus}
-                    onStatusChange={setSelectedStatus}
-                    filteredProjects={filteredProjects}
-                    onDeleteProject={handleDeleteProject}
-                />
             </main>
 
             <ChatPanel projects={projectList} />

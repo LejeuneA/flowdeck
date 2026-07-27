@@ -177,7 +177,10 @@ function ChatPanel({ projects }: ChatPanelProps) {
     }
 
     return (
-        <aside className="flowdeck__assistant">
+        <aside
+            id="flowdeck-assistant"
+            className="flowdeck__assistant"
+        >
             <div className="assistant-panel__header">
                 <h2 className="assistant-panel__title">
                     Flowdeck Assistant
