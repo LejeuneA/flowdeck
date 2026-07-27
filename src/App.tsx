@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ChatPanel from "./components/ChatPanel";
 import DashboardHeader from "./components/DashboardHeader";
 import DashboardStats from "./components/DashboardStats";
@@ -9,41 +9,36 @@ import { projects } from "./data/projects";
 import type { Project, ProjectStatusFilter } from "./types/Project";
 import { getProjectStats } from "./utils/projectStats";
 
-const STORAGE_KEY = "flowdeck-projects";
-
-function getInitialProjects(): Project[] {
-    const savedProjects = localStorage.getItem(STORAGE_KEY);
-
-    if (!savedProjects) {
-        return projects;
-    }
-
-    try {
-        return JSON.parse(savedProjects) as Project[];
-    } catch {
-        return projects;
-    }
-}
+const DEMO_PROJECT_LIMIT = 10;
 
 function App() {
     const [selectedStatus, setSelectedStatus] =
         useState<ProjectStatusFilter>("All");
 
-    const [projectList, setProjectList] =
-        useState<Project[]>(getInitialProjects);
+    const [projectList, setProjectList] = useState<Project[]>(projects);
 
     const [isProjectFormOpen, setIsProjectFormOpen] = useState(false);
 
-    useEffect(() => {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(projectList));
-    }, [projectList]);
+    const hasReachedProjectLimit =
+        projectList.length >= DEMO_PROJECT_LIMIT;
 
     function handleAddProject() {
+        if (hasReachedProjectLimit) {
+            return;
+        }
+
         setIsProjectFormOpen(true);
     }
 
     function handleCreateProject(project: Project) {
-        setProjectList((currentProjects) => [...currentProjects, project]);
+        setProjectList((currentProjects) => {
+            if (currentProjects.length >= DEMO_PROJECT_LIMIT) {
+                return currentProjects;
+            }
+
+            return [...currentProjects, project];
+        });
+
         setIsProjectFormOpen(false);
     }
 
@@ -63,7 +58,9 @@ function App() {
     const filteredProjects =
         selectedStatus === "All"
             ? projectList
-            : projectList.filter((project) => project.status === selectedStatus);
+            : projectList.filter(
+                (project) => project.status === selectedStatus
+            );
 
     return (
         <div className="flowdeck">
