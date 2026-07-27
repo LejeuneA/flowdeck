@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChatPanel from "./components/ChatPanel";
 import DashboardHeader from "./components/DashboardHeader";
 import DashboardStats from "./components/DashboardStats";
@@ -10,17 +10,49 @@ import type { Project, ProjectStatusFilter } from "./types/Project";
 import { getProjectStats } from "./utils/projectStats";
 
 const DEMO_PROJECT_LIMIT = 10;
+const SESSION_STORAGE_KEY = "flowdeck-demo-projects";
+
+function getInitialProjects(): Project[] {
+    const savedProjects = sessionStorage.getItem(
+        SESSION_STORAGE_KEY
+    );
+
+    if (!savedProjects) {
+        return projects;
+    }
+
+    try {
+        const parsedProjects = JSON.parse(savedProjects);
+
+        if (!Array.isArray(parsedProjects)) {
+            return projects;
+        }
+
+        return parsedProjects.slice(0, DEMO_PROJECT_LIMIT) as Project[];
+    } catch {
+        return projects;
+    }
+}
 
 function App() {
     const [selectedStatus, setSelectedStatus] =
         useState<ProjectStatusFilter>("All");
 
-    const [projectList, setProjectList] = useState<Project[]>(projects);
+    const [projectList, setProjectList] =
+        useState<Project[]>(getInitialProjects);
 
-    const [isProjectFormOpen, setIsProjectFormOpen] = useState(false);
+    const [isProjectFormOpen, setIsProjectFormOpen] =
+        useState(false);
 
     const hasReachedProjectLimit =
         projectList.length >= DEMO_PROJECT_LIMIT;
+
+    useEffect(() => {
+        sessionStorage.setItem(
+            SESSION_STORAGE_KEY,
+            JSON.stringify(projectList)
+        );
+    }, [projectList]);
 
     function handleAddProject() {
         if (hasReachedProjectLimit) {
@@ -32,7 +64,9 @@ function App() {
 
     function handleCreateProject(project: Project) {
         setProjectList((currentProjects) => {
-            if (currentProjects.length >= DEMO_PROJECT_LIMIT) {
+            if (
+                currentProjects.length >= DEMO_PROJECT_LIMIT
+            ) {
                 return currentProjects;
             }
 
@@ -44,7 +78,9 @@ function App() {
 
     function handleDeleteProject(projectId: number) {
         setProjectList((currentProjects) =>
-            currentProjects.filter((project) => project.id !== projectId)
+            currentProjects.filter(
+                (project) => project.id !== projectId
+            )
         );
     }
 
@@ -59,7 +95,8 @@ function App() {
         selectedStatus === "All"
             ? projectList
             : projectList.filter(
-                (project) => project.status === selectedStatus
+                (project) =>
+                    project.status === selectedStatus
             );
 
     return (
@@ -67,7 +104,9 @@ function App() {
             <Sidebar />
 
             <main className="flowdeck__main">
-                <DashboardHeader onAddProject={handleAddProject} />
+                <DashboardHeader
+                    onAddProject={handleAddProject}
+                />
 
                 <DashboardStats
                     totalProjects={totalProjects}
@@ -78,8 +117,12 @@ function App() {
 
                 {isProjectFormOpen && (
                     <ProjectForm
-                        onCancel={() => setIsProjectFormOpen(false)}
-                        onCreateProject={handleCreateProject}
+                        onCancel={() =>
+                            setIsProjectFormOpen(false)
+                        }
+                        onCreateProject={
+                            handleCreateProject
+                        }
                     />
                 )}
 
