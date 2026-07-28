@@ -927,13 +927,6 @@ button {
         padding: 0.85rem;
     }
 
-    .flowdeck__header-actions,
-    .projects-page__header,
-    .projects-page__actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
     .flowdeck__demo-limit {
         justify-content: flex-start;
     }
@@ -968,5 +961,63 @@ button {
     .project-form__secondary,
     .project-form__primary {
         width: 100%;
+    }
+}
+
+@media (max-width: 1100px) {
+
+    .flowdeck__header,
+    .projects-page__header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.5rem;
+    }
+
+    .flowdeck__header-actions,
+    .projects-page__actions {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .flowdeck__demo-limit {
+        flex-shrink: 0;
+    }
+
+    .flowdeck__primary-button {
+        width: auto;
+        min-width: 10rem;
+        min-height: 3rem;
+        padding: 0.75rem 1.25rem;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .flowdeck__header-actions,
+    .projects-page__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .flowdeck__demo-limit {
+        justify-content: flex-start;
+    }
+
+    .flowdeck__primary-button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .flowdeck__title {
+        font-size: clamp(2.5rem, 15vw, 4rem);
+    }
+
+    .flowdeck__subtitle {
+        font-size: 1rem;
+        line-height: 1.6;
     }
 }
