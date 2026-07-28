@@ -31,13 +31,8 @@ function DashboardHeader({
 
             <div className="flowdeck__header-actions">
                 <div className="flowdeck__demo-limit">
-                    <span>
-                        Demo projects
-                    </span>
-
-                    <strong>
-                        {projectCount}/{projectLimit}
-                    </strong>
+                    <span>Demo</span>
+                    <strong>{projectCount}/{projectLimit}</strong>
                 </div>
 
                 <button
@@ -52,7 +47,7 @@ function DashboardHeader({
                     onClick={onAddProject}
                 >
                     {hasReachedProjectLimit
-                        ? "Project limit reached"
+                        ? "Limit reached"
                         : "Add Project"}
                 </button>
             </div>

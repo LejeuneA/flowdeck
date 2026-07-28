@@ -75,7 +75,7 @@ function ProjectsPage({
                         onClick={onAddProject}
                     >
                         {hasReachedProjectLimit
-                            ? "Project limit reached"
+                            ? "Limit reached"
                             : "Add Project"}
                     </button>
                 </div>
